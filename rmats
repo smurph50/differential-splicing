@@ -1,0 +1,18 @@
+cat > con_fq.txt
+/Users/seanmurphy/sf3b2ko/CON1/CON1_1.fq.gz:/Users/seanmurphy/sf3b2ko/CON1/CON1_2.fq.gz,/Users/seanmurphy/sf3b2ko/CON2/CON2_1.fq.gz:/Users/seanmurphy/sf3b2ko/CON2/CON2_2.fq.gz,/Users/seanmurphy/sf3b2ko/CON3/CON3_1.fq.gz:/Users/seanmurphy/sf3b2ko/CON3/CON3_2.fq.gz
+cat > ko_fq.txt
+/Users/seanmurphy/sf3b2ko/KO1/KO1_1.fq.gz:/Users/seanmurphy/sf3b2ko/KO1/KO1_2.fq.gz,/Users/seanmurphy/sf3b2ko/KO2/KO2_1.fq.gz:/Users/seanmurphy/sf3b2ko/KO2/KO2_2.fq.gz,/Users/seanmurphy/sf3b2ko/KO3/KO3_1.fq.gz:/Users/seanmurphy/sf3b2ko/KO3/KO3_2.fq.gz
+
+
+conda create --prefix ./new_rmats_conda_env
+conda activate ./new_rmats_conda_env
+conda install -c conda-forge -c bioconda rmats=4.1.2
+
+#star binary
+#star requires unzipped fastq
+star --runThreadN 4 --runMode genomeGenerate --genomeDir /Users/seanmurphy/genomeDir --genomeFastaFiles /Users/seanmurphy/GRCh38.p14.genome.fa --sjdbGTFfile /Users/seanmurphy/gencode.v44.chr_patch_hapl_scaff.annotation.gtf --sjdbOverhang 149
+
+cd /Users/seanmurphy/new_rmats_conda_env/rMATS
+python rmats.py --b1 /Users/seanmurphy/con.txt --b2 /Users/seanmurphy/ko.txt --gtf /Users/seanmurphy/gencode.v44.chr_patch_hapl_scaff.annotation.gtf -t unpaired --readLength 150 --nthread 4 --od /Volumes/sean_transfer/rmats_out --tmp /Volumes/sean_transfer/rmats_temp
+
+
