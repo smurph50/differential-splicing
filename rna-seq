@@ -1,0 +1,9 @@
+cd /Users/seanmurphy/Documents/hisat2
+for folder in /Users/seanmurphy/sf3b2ko/* 
+do
+	fol=$(echo "$folder" | tail -c 5) 
+	./hisat2 -q -x ~/Documents/hisat2/genome -1 "$folder"/*_1.fq.gz -2 "$folder"/*_2.fq.gz -S /Volumes/sean_transfer/"$fol".sam
+done
+
+cd /Users/seanmurphy/Documents/subread/bin
+./featureCounts -t exon -g gene_id -a RefFlat_hg38.gtf -o sf3b2ko_counts.txt /Volumes/sean_transfer/*.sam
